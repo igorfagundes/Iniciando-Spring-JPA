@@ -4,6 +4,7 @@ import java.util.List;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -24,15 +25,15 @@ public class Disciplina{
     private String nome;
     private Integer semestre;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "professor_id", nullable = true)
     private Professor professor;
     
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "disciplinas_alunos",
                joinColumns = @JoinColumn(name = "disciplinas_fk"),
                inverseJoinColumns = @JoinColumn(name = "aluno_fk"))
-    List<Aluno> alunos;
+   private List<Aluno> alunos;
     
     @Deprecated
     public Disciplina(){ }
@@ -69,10 +70,19 @@ public class Disciplina{
     public void setProfessor(Professor professor) {
         this.professor = professor;
     }
+    
+
+    public List<Aluno> getAlunos() {
+        return alunos;
+    }
+
+    public void setAlunos(List<Aluno> alunos) {
+        this.alunos = alunos;
+    }
 
     @Override
     public String toString() {
-        return "Disciplina [id=" + id + ", nome=" + nome + ", semestre=" + semestre + ", professor=" + professor + "]";
+        return "Disciplina [id=" + id + ", nome=" + nome + ", semestre=" + semestre + ", professor=" + professor + ", aluno=" + alunos + "]";
     }
 
 
