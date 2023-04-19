@@ -1,12 +1,16 @@
 package com.estudosspring.estudosspring.service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
 
 import org.springframework.stereotype.Service;
 
+import com.estudosspring.estudosspring.orm.Aluno;
 import com.estudosspring.estudosspring.orm.Disciplina;
 import com.estudosspring.estudosspring.orm.Professor;
+import com.estudosspring.estudosspring.repositorio.AlunoRepository;
 import com.estudosspring.estudosspring.repositorio.DisciplinaRepository;
 import com.estudosspring.estudosspring.repositorio.ProfessorRepositorio;
 
@@ -14,11 +18,13 @@ import com.estudosspring.estudosspring.repositorio.ProfessorRepositorio;
 public class CrudDisciplinaService {
     private DisciplinaRepository disciplinaRepository; 
     private ProfessorRepositorio professorRepositorio;
+    private AlunoRepository alunoRepository;
 
     public CrudDisciplinaService(DisciplinaRepository disciplinaRepositorio,
                                  ProfessorRepositorio professorRepositorio) {
         this.professorRepositorio = professorRepositorio;
         this.disciplinaRepository = disciplinaRepositorio;
+        this.alunoRepository = alunoRepository;
     }
 
 
@@ -32,6 +38,7 @@ public class CrudDisciplinaService {
             System.out.println("2 = atualizar uma Disciplina");
             System.out.println("3 = visualizar todas disciplinas");
             System.out.println("4 = deletar uma disciplina");
+            System.out.println("5 = matricular alunos");
 
             int opcao = scan.nextInt();
 
@@ -47,6 +54,9 @@ public class CrudDisciplinaService {
                 break;
                 case 4:
                 this.deletar(scan);
+                break;
+                case 5:
+                this.matricularAlunos(scan);
                 break;
                 default:
                 isTrue  = false;
@@ -69,8 +79,11 @@ public class CrudDisciplinaService {
 
         if(optional.isPresent()){
             Professor professor = optional.get();
-            professor.setNome(nome);
+
+            List<Aluno> alunos = this.matricular(scan);
+            
             Disciplina disciplina = new Disciplina(nome, semestre, professor);
+            disciplina.setAlunos(alunos);
             disciplinaRepository.save(disciplina);
             System.out.println("Salvo\n");
         }else{
@@ -91,7 +104,7 @@ public class CrudDisciplinaService {
             System.out.print("Semestre");
             Integer semestre = scan.nextInt();
             
-            System.out.println("Professo ID: ");
+            System.out.println("Professor ID: ");
             Long professorId = scan.nextLong();
             
             Optional<Professor> optionalProfessor = this.professorRepositorio.findById(professorId);
@@ -133,6 +146,44 @@ public class CrudDisciplinaService {
     Long id = scan.nextLong();
     this.disciplinaRepository.deleteById(id);//lancara uma excption se nao achar uma ID na tabela
     System.out.println("disciplina deletada!\n");
+  }
+  //matricuar alunos
+  private void matricularAlunos(Scanner scan){
+    System.out.println("Digite o Id da Disciplina para matricular alunos: ");
+    Long id = scan.nextLong();
+
+    Optional<Disciplina> optionalDisciplina = this.disciplinaRepository.findById(id);
+
+    if(optionalDisciplina.isPresent()){
+        Disciplina disciplina = optionalDisciplina.get();
+        List<Aluno> novosAlunos = this.matricular(scan);
+        disciplina.getAlunos().addAll(novosAlunos);
+        this.disciplinaRepository.save(disciplina);
+    }else{
+        System.out.println("O id da disciplina informada: " + id + " é inválido\n");
+    }
+  }
+  //matricular
+  private List<Aluno> matricular(Scanner scan){
+    Boolean isTrue = true;
+    List<Aluno> alunos = new ArrayList<>();
+    while(isTrue){
+        System.out.println("ID do aluno a ser matriculado (digite 0 para sair): ");
+        Long alunoId = scan.nextLong();
+
+        if(alunoId > 0){
+            System.out.println("alunoId: " + alunoId);
+            Optional<Aluno> optional = this.alunoRepository.findById(alunoId);
+            if(optional.isPresent()){
+                alunos.add(optional.get());
+            }else{
+                System.out.println("Nenhum aluno possui Id " + alunoId + " !");
+            }
+        }else{
+            isTrue = false;
+        }
+    }
+    return alunos;
   }
 }
 

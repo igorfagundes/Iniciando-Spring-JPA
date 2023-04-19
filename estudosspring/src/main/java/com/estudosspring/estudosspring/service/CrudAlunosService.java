@@ -55,11 +55,12 @@ public class CrudAlunosService {
         }
         //cadastrar
         private void cadastrar(Scanner scan){
+            Scanner scann = new Scanner(System.in);
             System.out.print("Digite o nome do aluno: ");
-            String nome = scan.nextLine();
-            scan.nextLine();
+            String nome = scann.nextLine();
+            //scan.nextLine();
             System.out.print("Digite a idade do aluno: ");
-            Integer idade = scan.nextInt();
+            Integer idade = scann.nextInt();
     
             Aluno aluno = new Aluno();
             aluno.setNome(nome);
@@ -125,11 +126,11 @@ public class CrudAlunosService {
             System.out.println("ID: " + aluno.getId());
             System.out.println("Nome: " + aluno.getNome());
             System.out.println("Idade: " + aluno.getIdade());
-            System.out.println("Disciplinas [");
+            System.out.println("Disciplinas: [");
 
             if(aluno.getDisciplinas() != null){
                 for(Disciplina disciplina: aluno.getDisciplinas()){
-                    System.out.println("\tNome: " + disciplina.getNome());
+                    System.out.println("\tDisciplina: " + disciplina.getNome());
                     System.out.println("\tSemestre: " + disciplina.getSemestre());
                     System.out.println("");
             }
