@@ -21,7 +21,8 @@ public class CrudDisciplinaService {
     private AlunoRepository alunoRepository;
 
     public CrudDisciplinaService(DisciplinaRepository disciplinaRepositorio,
-                                 ProfessorRepositorio professorRepositorio) {
+                                 ProfessorRepositorio professorRepositorio,
+                                 AlunoRepository alunoRepository) {
         this.professorRepositorio = professorRepositorio;
         this.disciplinaRepository = disciplinaRepositorio;
         this.alunoRepository = alunoRepository;
