@@ -1,6 +1,7 @@
 package com.estudosspring.estudosspring.orm;
 
 import java.util.List;
+import java.util.Set;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -33,7 +34,7 @@ public class Disciplina{
     @JoinTable(name = "disciplinas_alunos",
                joinColumns = @JoinColumn(name = "disciplinas_fk"),
                inverseJoinColumns = @JoinColumn(name = "aluno_fk"))
-   private List<Aluno> alunos;
+   private Set<Aluno> alunos;
     
     @Deprecated
     public Disciplina(){ }
@@ -72,11 +73,11 @@ public class Disciplina{
     }
     
 
-    public List<Aluno> getAlunos() {
+    public Set<Aluno> getAlunos() {
         return alunos;
     }
 
-    public void setAlunos(List<Aluno> alunos) {
+    public void setAlunos(Set<Aluno> alunos) {
         this.alunos = alunos;
     }
 
