@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import com.estudosspring.estudosspring.orm.Aluno;
 import com.estudosspring.estudosspring.orm.Disciplina;
 import com.estudosspring.estudosspring.repositorio.AlunoRepository;
+import com.estudosspring.estudosspring.repositorio.DisciplinaRepository;
 import jakarta.transaction.Transactional;
 
 @Service
@@ -95,7 +96,7 @@ public class CrudAlunosService {
             Iterable<Aluno> alunos = this.alunoRepository.findAll();
             //alternativa 1
             for (Aluno aluno: alunos) {
-                System.out.println(alunos);
+                System.out.println(aluno);
             }
     
             //alternativa 2

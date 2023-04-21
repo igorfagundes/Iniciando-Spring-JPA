@@ -91,6 +91,7 @@ public class CrudDisciplinaService {
             System.out.println("Professor ID :" + professorId + " invalido!");
         }
     }
+    //atualizar
     private void atualizar(Scanner scan){
         System.out.print("Digite o id da disciplina a ser atualizada: ");
         Long id = scan.nextLong();
@@ -112,12 +113,15 @@ public class CrudDisciplinaService {
             if(optionalProfessor.isPresent()){
                 Professor professor = optionalProfessor.get();
 
+                List<Aluno> alunos = this.matricular(scan);
+
                 disciplina.setNome(nome);
                 disciplina.setSemestre(semestre);
                 disciplina.setProfessor(professor);
+                disciplina.setAlunos(alunos);
 
                 disciplinaRepository.save(disciplina);
-                System.out.println("Atualizado\n");
+                System.out.println("Atualizado!\n");
         }else{
             System.out.println("Professor ID :" + professorId + " invalido!");
         }
@@ -126,6 +130,7 @@ public class CrudDisciplinaService {
         System.out.println("Disciplina Id " + id + " invalido!");
     }
 }
+//visualizar todos
     private void visualizar(){
         Iterable<Disciplina> disciplinas = this.disciplinaRepository.findAll();
         //alternativa 1
@@ -142,13 +147,14 @@ public class CrudDisciplinaService {
        // professores.forEach(System.out::println);
         System.out.println();
     }
+    //deletar ou remover
   private void deletar(Scanner scan){
     System.out.print("Digite o id da disciplina a ser removida: ");
     Long id = scan.nextLong();
     this.disciplinaRepository.deleteById(id);//lancara uma excption se nao achar uma ID na tabela
     System.out.println("disciplina deletada!\n");
   }
-  //matricuar alunos
+  //matricular alunos
   private void matricularAlunos(Scanner scan){
     System.out.println("Digite o Id da Disciplina para matricular alunos: ");
     Long id = scan.nextLong();
