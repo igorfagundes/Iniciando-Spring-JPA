@@ -21,6 +21,7 @@ public class RelatorioService {
             System.out.println("0 = voltar ao menu anterior");
             System.out.println("1 = Alunos por nome");
             System.out.println("2 = Alunos por nome e idade menor ou igual");
+            System.out.println("3 = Alunos por nome e idade maior ou igual");
 
             int opcao = scan.nextInt();
 
@@ -30,6 +31,9 @@ public class RelatorioService {
                 break;
                 case 2:
                 this.alunosPorNomeIdadeMenorOuIgual(scan);
+                break;
+                 case 3:
+                this.alunosPorNomeIdadeMaiorOuIgual(scan);
                 break;
                 default:
                 isTrue  = false;
@@ -58,6 +62,20 @@ public class RelatorioService {
         Integer idade = scan.nextInt();
 
         List<Aluno> alunos = this.alunoRepository.findByNomeStartingWithAndIdadeLessThanEqual(nome, idade);
+
+        for(Aluno aluno : alunos){
+            alunos.forEach(System.out::println);
+        }
+    }
+    private void alunosPorNomeIdadeMaiorOuIgual(Scanner scan){
+        
+        System.out.println("Digite um nome");
+        String nome = scan.next();
+
+        System.out.println("Digite a idade");
+        Integer idade = scan.nextInt();
+
+        List<Aluno> alunos = this.alunoRepository.findNomeIdadeMaiorOuIgual(nome, idade);
 
         for(Aluno aluno : alunos){
             alunos.forEach(System.out::println);
