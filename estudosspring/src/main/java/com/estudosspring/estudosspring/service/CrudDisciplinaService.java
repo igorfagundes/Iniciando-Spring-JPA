@@ -83,6 +83,7 @@ public class CrudDisciplinaService {
             
             Disciplina disciplina = new Disciplina(nome, semestre, professor);
             disciplina.setAlunos(alunos);
+            disciplina.setProfessor(professor);
             disciplinaRepository.save(disciplina);
             System.out.println("Salvo\n");
         }else{
@@ -116,8 +117,7 @@ public class CrudDisciplinaService {
                 disciplina.setNome(nome);
                 disciplina.setSemestre(semestre);
                 disciplina.setProfessor(professor);
-                disciplina.setAlunos(alunos);
-
+                
                 disciplinaRepository.save(disciplina);
                 System.out.println("Atualizado!\n");
         }else{
@@ -132,7 +132,8 @@ public class CrudDisciplinaService {
     private void visualizar(){
         Iterable<Disciplina> disciplinas = this.disciplinaRepository.findAll();
         //alternativa 1
-        for (Disciplina disciplina:disciplinas) {
+        for (Disciplina disciplina : disciplinas) {
+           
             System.out.println(disciplina);
         }
 

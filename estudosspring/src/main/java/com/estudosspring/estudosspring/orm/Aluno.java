@@ -1,8 +1,8 @@
 package com.estudosspring.estudosspring.orm;
 
-import java.util.List;
-import java.util.Set;
 
+import java.util.Set;
+import java.util.HashSet;
 import jakarta.annotation.Generated;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -23,8 +23,9 @@ public class Aluno {
     private String nome;
     private Integer idade;
 
-    @ManyToMany(mappedBy = "alunos", fetch = FetchType.LAZY)
-    private  Set<Disciplina> disciplinas;
+    @ManyToMany(mappedBy = "alunos", fetch = FetchType.EAGER)
+    
+    private  Set<Disciplina> disciplinas = new HashSet<>();
 
     
     public Aluno(){
